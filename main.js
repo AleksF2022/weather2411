@@ -3,11 +3,13 @@ const input = document.querySelector('.input');
 const form = document.querySelector('.form');
 const card = document.querySelector('.card');
 
+
+
 async function getCurrentWeather(city) {
     const url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&aqi=no&lang=ru`
     const response = await fetch(url);
-    const data = await response.json();
-    return data
+    const currentData = await response.json();
+    return currentData
 }
 function showCard({ city_name, country, temp_c, icon, condition, localtime }) {
     const cardInner = `<h2 class="card-city">${city_name}<span>${country}</span></h2>
@@ -27,19 +29,20 @@ function showError(errorMessage) {
 form.onsubmit = async (event) => {
     event.preventDefault()
     const city = input.value.trim()
-    const data = await getCurrentWeather(city)
+    input.value = ""
+    const currentData = await getCurrentWeather(city)
 
-    if (data.error) {
-        showError(data.error.message)
+    if (currentData.error) {
+        showError(currentData.error.message)
     } else {
 
         const currentWeather = {
-            city_name: data.location.name,
-            country: data.location.country,
-            temp_c: Math.round(data.current.temp_c),
-            icon: data.current.condition.icon,
-            condition: data.current.condition.text,
-            localtime: data.location.localtime,
+            city_name: currentData.location.name,
+            country: currentData.location.country,
+            temp_c: Math.round(currentData.current.temp_c),
+            icon: currentData.current.condition.icon,
+            condition: currentData.current.condition.text,
+            localtime: currentData.location.localtime,
         }
         showCard(currentWeather)
     }
