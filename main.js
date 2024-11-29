@@ -4,7 +4,7 @@ const form = document.querySelector('.form');
 const card = document.querySelector('.card');
 
 async function getCurrentWeather(city) {
-    const url = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&aqi=no&lang=ru`
+    const url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&aqi=no&lang=ru`
     const response = await fetch(url);
     const data = await response.json();
     return data
